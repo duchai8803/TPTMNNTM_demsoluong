@@ -112,9 +112,9 @@ Hệ thống bao gồm các thành phần chính:
 
 ## 🐕‍🦺 Hình Ảnh Minh Họa
 
-<p align="center">
-  <img src="images/web_demo.png" width="600" alt="Giao diện web hiển thị số lượng chó/mèo">
-</p>
+![Ảnh chụp màn hình 2025-06-04 220508](https://github.com/user-attachments/assets/6f0206e9-a4b8-4246-a4cc-f0d256dec077)
+
+![Ảnh chụp màn hình 2025-06-04 220641](https://github.com/user-attachments/assets/4b237742-ab62-4054-a31a-9a4475155262)
 
 ---
 
