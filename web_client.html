@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Counter Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function PetCounter() {
+            const [petCount, setPetCount] = React.useState({ cats: 0, dogs: 0 });
+            const [loading, setLoading] = React.useState(false);
+            const [error, setError] = React.useState(null);
+
+            React.useEffect(() => {
+                async function fetchPetCount() {
+                    setLoading(true);
+                    setError(null);
+                    try {
+                        const response = await fetch('http://localhost:5000/get_pet_count', {
+                            method: 'GET',
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        setPetCount(data);
+                    } catch (error) {
+                        setError(`Failed to fetch pet count: ${error.message}`);
+                        console.error('Error fetching pet count:', error);
+                    }
+                    setLoading(false);
+                }
+
+                fetchPetCount();
+                const interval = setInterval(fetchPetCount, 2000);
+
+                return () => clearInterval(interval);
+            }, []);
+
+            return (
+                <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+                    <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+                        Pet Counter Dashboard
+                    </h1>
+                    {error && (
+                        <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+                            <p>{error}</p>
+                            <button
+                                className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                onClick={() => window.location.reload()}
+                            >
+                                Retry
+                            </button>
+                        </div>
+                    )}
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between bg-blue-50 p-4 rounded-lg">
+                            <div className="flex items-center space-x-3">
+                                <span className="text-2xl">😺</span>
+                                <span className="text-lg font-semibold text-gray-700">Cats</span>
+                            </div>
+                            <span className={`text-2xl font-bold ${loading ? 'animate-pulse' : ''}`}>
+                                {petCount.cats}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between bg-green-50 p-4 rounded-lg">
+                            <div className="flex items-center space-x-3">
+                                <span className="text-2xl">🐶</span>
+                                <span className="text-lg font-semibold text-gray-700">Dogs</span>
+                            </div>
+                            <span className={`text-2xl font-bold ${loading ? 'animate-pulse' : ''}`}>
+                                {petCount.dogs}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="mt-6 text-center text-sm text-gray-500">
+                        Last updated: {new Date().toLocaleTimeString()}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<PetCounter />, document.getElementById('root'));
+    </script>
+</body>
+</html>
