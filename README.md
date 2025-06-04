@@ -1,5 +1,7 @@
 # TPTMNNTM_demsoluong
+
 Hệ Thống Phát Hiện và Đếm Vật Nuôi Tự Động với ESP32-CAM và YOLOv8
+
 Dự án này triển khai một hệ thống tự động phát hiện và đếm vật nuôi (chó, mèo) sử dụng ESP32-CAM để chụp ảnh, YOLOv8 để nhận diện và đếm, và một giao diện web để hiển thị kết quả theo thời gian thực. Ảnh có thể được tải lên Roboflow để huấn luyện lại mô hình (tùy chọn). Hệ thống được thiết kế chi phí thấp, phù hợp cho việc giám sát vật nuôi theo thời gian thực.
 Mục Lục
 
